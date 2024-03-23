@@ -8,7 +8,7 @@ def in_project_generalizability(model, data_builder, project: str, class_interva
     for num in range(class_interval[1], class_interval[0] - 1, -1):
         data, components = summary_component_dataloader(project, num)
         _, _, _, _, test_dataloader, test_true_label = data_builder.build(data, components)
-        recall, top, scale = PIC_evaluate(model, test_dataloader, test_true_label, project, num, output_k, cuda_device)
+        recall, top, scale = TIC_evaluate(model, test_dataloader, test_true_label, project, num, output_k, cuda_device)
     return
 
 
@@ -56,7 +56,7 @@ def recall_k_by_label(predict_label: list, true_label: list, class_num: int, top
     return record
 
 
-def PIC_evaluate(model, test_dataloader, test_true_label: list, project: str, class_num: int, output_k: int,
+def TIC_evaluate(model, test_dataloader, test_true_label: list, project: str, class_num: int, output_k: int,
                  cuda_device, split_by_label=False):
     model.to(cuda_device)
     with torch.no_grad():
@@ -85,7 +85,7 @@ def PIC_evaluate(model, test_dataloader, test_true_label: list, project: str, cl
     return recall, top, len(test_true_label)
 
 
-def PIC_validate(model, valid_dataloader, cuda_device):
+def TIC_validate(model, valid_dataloader, cuda_device):
     model.to(cuda_device)
     with torch.no_grad():
         model.eval()

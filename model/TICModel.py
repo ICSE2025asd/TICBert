@@ -3,9 +3,9 @@ import torch.nn as nn
 from transformers import AutoModel
 
 
-class PICModel(nn.Module):
+class TICModel(nn.Module):
     def __init__(self, pretrained_path):
-        super(PICModel, self).__init__()
+        super(TICModel, self).__init__()
         self.encoder = AutoModel.from_pretrained(pretrained_path)
         self.classifier = nn.Linear(768, 1)
         self.softmax = nn.Softmax(dim=-1)

@@ -2,11 +2,11 @@ from copy import deepcopy
 
 from tqdm import tqdm
 
-from model.evaluate import PIC_validate, roberta_classifier_evaluate
+from model.evaluate import TIC_validate, roberta_classifier_evaluate
 from util.DataLoader import summary_component_dataloader
 
 
-def PIC_train(model, train_dataloader, valid_dataloader, max_epoch_num: int, optimizer, loss_func, cuda_device,
+def TIC_train(model, train_dataloader, valid_dataloader, max_epoch_num: int, optimizer, loss_func, cuda_device,
               use_early_stop=True, patience=5, min_epoch=10):
     model.to(cuda_device)
     max_valid_f1, best_model, early_stop_counter = 0, {}, 0
@@ -22,7 +22,7 @@ def PIC_train(model, train_dataloader, valid_dataloader, max_epoch_num: int, opt
             train_loss.backward()
             optimizer.step()
 
-        recall, precision, f1 = PIC_validate(model, valid_dataloader, cuda_device)
+        recall, precision, f1 = TIC_validate(model, valid_dataloader, cuda_device)
         print(f"epoch: {e + 1}")
         print(f"recall: {recall}")
         print(f"precision: {precision}")

@@ -45,16 +45,16 @@ class DataBuilder:
             valid, valid_true_label = input_for_common_classifier(valid, components)
             test, test_true_label = input_for_common_classifier(test, components)
         else:
-            train, train_true_label = prompt_for_PIC(train, components, prompt_type, use_time_weight, time_weight)
-            valid, valid_true_label = prompt_for_PIC(valid, components, prompt_type, use_time_weight, time_weight)
-            test, test_true_label = prompt_for_PIC(test, components, prompt_type, use_time_weight, time_weight)
+            train, train_true_label = prompt_for_TIC(train, components, prompt_type, use_time_weight, time_weight)
+            valid, valid_true_label = prompt_for_TIC(valid, components, prompt_type, use_time_weight, time_weight)
+            test, test_true_label = prompt_for_TIC(test, components, prompt_type, use_time_weight, time_weight)
         train_dataloader = DataLoader(TextInitializeDataset(train), batch_size=len(components.keys()), shuffle=False, collate_fn=self.collate_fn)
         valid_dataloader = DataLoader(TextInitializeDataset(valid), batch_size=128, shuffle=False, collate_fn=self.collate_fn)
         test_dataloader = DataLoader(TextInitializeDataset(test), batch_size=128, shuffle=False, collate_fn=self.collate_fn)
         return train_dataloader, train_true_label, valid_dataloader, valid_true_label, test_dataloader, test_true_label
 
 
-def prompt_for_PIC(raw_data: List[dict], component_id: dict, prompt_type: str, use_time_weight: bool, time_weight):
+def prompt_for_TIC(raw_data: List[dict], component_id: dict, prompt_type: str, use_time_weight: bool, time_weight):
     components, true_label, data = list(component_id.keys()), [], []
     for issue in raw_data:
         cur_components = issue["component"]
@@ -63,14 +63,14 @@ def prompt_for_PIC(raw_data: List[dict], component_id: dict, prompt_type: str, u
             time_decay = time_weight.get_time_weight(create_time)
         else:
             time_decay = 1
-        prompts = prompt_builder_for_PIC_roberta(prompt_type, issue, components, cur_components, time_decay)
+        prompts = prompt_builder_for_TIC_roberta(prompt_type, issue, components, cur_components, time_decay)
         if len(prompts) != 0:
             data.extend(prompts)
             true_label.append([component_id[_] for _ in cur_components])
     return data, true_label
 
 
-def prompt_builder_for_PIC_roberta(prompt_type: str, issue: dict, components: list, cur_components: list, time_decay: float):
+def prompt_builder_for_TIC_roberta(prompt_type: str, issue: dict, components: list, cur_components: list, time_decay: float):
     prompts = []
     if prompt_type == "S":
         text = issue["text"]
