@@ -3,7 +3,7 @@ Source code for the ICSE'25 paper.
 
 ## Folder
 - ```config``` contains configuration-related information such as SQL config.
-- ```data``` contains an SQL file with issue data from Jira.
+- ```data``` contains two SQL file with issue data from Jira.
 - ```FeatureEngineering``` contains files related to feature extraction and computation.
 - ```models``` is used to store pre-trained MLMs, files related to model training, and trained models.
 - ```TextProcess``` is used for data cleaning.
@@ -27,6 +27,7 @@ Source code for the ICSE'25 paper.
 Please first create a database named "issue" in MySQL, and then run the following command in the ```data``` folder:
 ```
 mysql -u username -p issue < issue.sql
+mysql -u username -p issue < component.sql
 ```
 #### Configure the database
 Configure the database accordingly in the ```MySQLConfig.json```  in the ```config``` folder.

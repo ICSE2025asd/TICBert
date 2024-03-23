@@ -81,4 +81,7 @@ class GaussWeight:
 
     def get_weight(self, time_str: str):
         encoded_time = self.time_encoder(time_str)
-        return self.a * math.pow(math.e, -(encoded_time - self.b) ** 2 / (2 * self.c)) + self.d
+        if encoded_time > self.b:
+            return 1
+        else:
+            return self.a * math.pow(math.e, -(encoded_time - self.b) ** 2 / (2 * self.c)) + self.d
