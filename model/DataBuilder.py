@@ -60,7 +60,7 @@ def prompt_for_TIC(raw_data: List[dict], component_id: dict, prompt_type: str, u
         cur_components = issue["component"]
         if use_time_weight:
             create_time = issue["create_time"]
-            time_decay = time_weight.get_time_weight(create_time)
+            time_decay = time_weight.get_weight(create_time)
         else:
             time_decay = 1
         prompts = prompt_builder_for_TIC_roberta(prompt_type, issue, components, cur_components, time_decay)
